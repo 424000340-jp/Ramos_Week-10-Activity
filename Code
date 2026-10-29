@@ -1,0 +1,98 @@
+abstract class Maintainable {
+  void performMaintenance();
+}
+
+
+mixin DiagnosticLogger {
+  void logDiagnostics() {
+    print('[Diagnostic]: System check initialized and running smoothly.');
+  }
+}
+
+
+class Vehicle {
+  String brand;
+  int year;
+
+  Vehicle(this.brand, this.year);
+
+  
+  void startEngine() {
+    print('$brand vehicle engine is starting...');
+  }
+
+  void displayInfo() {
+    print('Brand: $brand, Year: $year');
+  }
+}
+
+
+class Car extends Vehicle implements Maintainable {
+  int seatingCapacity;
+
+  Car(String brand, int year, this.seatingCapacity) : super(brand, year);
+
+  @override
+  void startEngine() {
+    print('🚗 Broom! The $brand car engine roars to life with a push-button start.');
+  }
+
+  @override
+  void performMaintenance() {
+    print('Maintenance for $brand Car: Check tire pressure and oil levels.');
+  }
+}
+
+
+class Motorcycle extends Vehicle implements Maintainable {
+  bool hasWindshield;
+
+  Motorcycle(String brand, int year, this.hasWindshield) : super(brand, year);
+
+  @override
+  void startEngine() {
+    print('🏍️ Revving! The $brand motorcycle engine starts with a kick/electric start.');
+  }
+
+  @override
+  void performMaintenance() {
+    print('Maintenance for $brand Motorcycle: Lubricate chain and check brakes.');
+  }
+}
+
+
+class FleetManagement with DiagnosticLogger {
+  String managerName;
+
+  FleetManagement(this.managerName);
+
+  void overseeFleet() {
+    print('Fleet Manager $managerName is reviewing operations.');
+    logDiagnostics(); 
+  }
+}
+
+
+void main() {
+  print('=== MOBILE DEV OOP DEMO ===\n');
+
+ 
+  Vehicle myCar = Car('Toyota', 2023, 5);
+  Vehicle myBike = Motorcycle('Yamaha', 2024, false);
+
+  myCar.displayInfo();
+  myCar.startEngine(); 
+  (myCar as Maintainable).performMaintenance();
+  
+  print('');
+
+  myBike.displayInfo();
+  myBike.startEngine(); 
+  (myBike as Maintainable).performMaintenance();
+
+  print('\n-------------------');
+  
+  // Demonstrating Mixin
+  FleetManagement manager = FleetManagement('Jaypee');
+  manager.overseeFleet();
+}
